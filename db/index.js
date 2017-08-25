@@ -12,6 +12,7 @@ const seed = () => {
     ]);
 }
 
+Product.hasMany(LineItem);
 LineItem.belongsTo(Product);
 LineItem.belongsTo(Order);
 Order.hasMany(LineItem);

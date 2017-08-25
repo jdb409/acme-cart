@@ -1,0 +1,14 @@
+<div class='cart well'>
+    <ul class='list-group'>
+        {% for product in products %} 
+            {% if product.lineItems.length > 0 %}
+            <li class='list-group-item'>
+                <h5 class='pull-left'>{{product.name}} <span class ='badge'>{{product.lineItems[0].quantity}}</span></h5>
+                <form method='post' action='/orders/{{product.id}}'>
+                    <button class='btn btn-info'>Remove from Cart</button>
+                </form>
+            </li>
+            {% endif %} 
+        {% endfor %}
+    </ul>
+</div>

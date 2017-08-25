@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/', (req, res, next) => {
     Product.getProducts()
         .then(products => {
+            // console.log(products[0].lineItems[0].quantity);
             res.render('index', {products: products});
         });
 });

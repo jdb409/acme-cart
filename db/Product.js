@@ -8,7 +8,7 @@ const Product = db.define('product', {
 });
 
 Product.getProducts = () => {
-    return Product.findAll();
+   return Product.findAll({ include: [{ all: true}]});
 }
 
 module.exports = Product;

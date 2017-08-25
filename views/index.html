@@ -1,23 +1,33 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Acme Cart</title>
-        <link rel = 'stylesheet' href = '/vendor/bootstrap/dist/css/bootstrap.css'>
-        <link rel = 'stylesheet' href = '/public/stylesheets/stylesheet.css'>
-    </head>
-    <body class = 'container'>
-        <h1>Acme Cart</h1>
-        <br/>
-        <h3>Products</h3>
-        <ul class = 'list-group'>
-            {% for product in products %}
-            <li class = 'list-group-item'>
-                <h4>{{product.name}}</h4>
-                <form method = 'post' action = '/orders/{{product.id}}'>
-                    <button class = 'btn btn-primary'>Add to cart</button>
-                </form>
-            </li>  
-            {% endfor %}
-        </ul>
-    </body>
+
+<head>
+    <title>Acme Cart</title>
+    <link rel='stylesheet' href='/vendor/bootstrap/dist/css/bootstrap.css'>
+    <link rel='stylesheet' href='/public/stylesheets/stylesheet.css'>
+</head>
+
+<body class='container'>
+    <h1>Acme Cart</h1>
+    <br/>
+    <h3>Products</h3>
+    <div class='row'>
+        <div class='col-sm-8'>
+            <ul class='list-group'>
+                {% for product in products %}
+                <li class='list-group-item'>
+                    <h4>{{product.name}}</h4>
+                    <form method='post' action='/orders/{{product.id}}'>
+                        <button class='btn btn-primary add'>Add to cart</button>
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class='col-sm-4'>
+            {% include 'cart.html' %}
+        </div>
+    </div>
+</body>
+
 </html>
