@@ -17,7 +17,10 @@ LineItem.belongsTo(Order);
 Order.hasMany(LineItem);
 
 module.exports = {
-    sync, seed
+    sync, seed,
+    models: {
+        Product, Order, LineItem
+    }
 }
 
 //when you add to cart. create new lineitem with product id and order id

@@ -6,8 +6,10 @@ const methodOverride = require('method-override')('_method');
 const path = require('path');
 const port = process.env.PORT || 3000;
 const db = require('./db');
+const Product = require('./db/Product');
 
 app.use('/vendor', express.static(path.join(__dirname, 'node_modules')));
+app.use('/public', express.static(path.join(__dirname, '/public')));
 
 app.set('view engine', 'html');
 app.engine('html', nunjucks.render);
@@ -16,8 +18,11 @@ nunjucks.configure('views', { noCache: true });
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res, next) => {
-    res.send('Hello');
-})
+    Product.getProducts()
+        .then(products => {
+            res.render('index', {products: products});
+        });
+});
 
 app.use('/orders', require('./routes/orders'));
 

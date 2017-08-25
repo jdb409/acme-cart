@@ -7,4 +7,8 @@ const Product = db.define('product', {
     }
 });
 
+Product.getProducts = () => {
+    return Product.findAll();
+}
+
 module.exports = Product;

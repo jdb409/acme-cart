@@ -3,7 +3,8 @@ const Sequelize = db.Sequelize;
 
 const LineItem = db.define('lineItem', {
     quantity: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0
     }
 });
 

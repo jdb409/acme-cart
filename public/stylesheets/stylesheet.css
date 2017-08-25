@@ -1,0 +1,17 @@
+ul{
+    width: 70%;
+}
+
+ul h4{
+    float: left;
+}
+
+ul button{
+    float: right;
+}
+
+li:after{
+    display: block;
+    content: "";
+    clear:both;
+}
