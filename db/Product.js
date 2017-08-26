@@ -8,7 +8,12 @@ const Product = db.define('product', {
 });
 
 Product.getProducts = () => {
-   return Product.findAll({ include: [{ all: true}]});
+   return Product.findAll({ include: [{ all: true}]})
+   .then(products => {
+       return products.sort((a,b) => {
+           return a.id-b.id;
+       });
+   });
 }
 
 module.exports = Product;

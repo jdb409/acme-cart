@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "DATABASE_URL=postgres://localhost/acme_cart nodemon app.js"
+    "start": "DATABASE_URL=postgres://localhost/acme_cart nodemon -e html,css,js app.js"
   },
   "keywords": [],
   "author": "",

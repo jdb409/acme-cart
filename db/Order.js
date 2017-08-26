@@ -12,26 +12,34 @@ const Order = db.define('order', {
 });
 
 Order.addProductToCart = (productId) => {
-    return LineItem.findOrCreate({
-        where: { productId: productId }
-    }).spread((lineItem, created) => {
-        if (created) {
-            lineItem.productId = productId;
+    return Order.findOrCreate({
+        where: {
+            address: null
+        },
+        defaults: {
+            isCart: true
         }
-        lineItem.quantity++;
-        return lineItem.save();
-    }).then((lineItem) => {
-        return Order.findOrCreate({
-            where: {
-                isCart: true
-            },
+    }).spread((order) => {
+        return LineItem.findOrCreate({
+            where: { productId: productId, orderId: order.id },
             defaults: {
-                isCart: true
+                orderId: order.id
             }
-        }).spread((order, created) => {
-            lineItem.setOrder(order);
+        }).spread((lineItem) => {
+            lineItem.productId = productId;
+            lineItem.quantity++;
+            return lineItem.save();
         })
-    }).catch(console.log);
+    })
+
+}
+
+Order.updateFromRequestBody = (orderId, address) => {
+    return Order.findById(orderId)
+        .then((order) => {
+            order.address = address;
+            return order.save();
+        });
 }
 
 module.exports = Order;

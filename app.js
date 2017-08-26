@@ -7,7 +7,9 @@ const path = require('path');
 const port = process.env.PORT || 3000;
 const db = require('./db');
 const Product = require('./db/Product');
+const Order = require('./db/Order');
 
+app.use(methodOverride);
 app.use('/vendor', express.static(path.join(__dirname, 'node_modules')));
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
@@ -18,14 +20,25 @@ nunjucks.configure('views', { noCache: true });
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res, next) => {
-    Product.getProducts()
-        .then(products => {
-            // console.log(products[0].lineItems[0].quantity);
-            res.render('index', {products: products});
+    return Order.findAll()
+        .then(orders => {
+            return Product.getProducts()
+                .then(products => {
+                    if (orders.length > 0) {
+                        return res.render('index', { products: products, orderId: orders[orders.length - 1].id });
+                    }
+                    res.render('index', { products: products });
+                });
         });
+
+
 });
 
 app.use('/orders', require('./routes/orders'));
+
+app.get('/', (err, req, res, next) => {
+    res.send(err);
+})
 
 db.sync()
     .then(() => {

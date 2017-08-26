@@ -13,3 +13,7 @@ li:after{
     content: "";
     clear:both;
 }
+
+.panel{
+    padding: 5%;
+}

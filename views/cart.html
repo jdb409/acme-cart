@@ -1,14 +1,23 @@
-<div class='cart well'>
-    <ul class='list-group'>
-        {% for product in products %} 
-            {% if product.lineItems.length > 0 %}
-            <li class='list-group-item'>
-                <h5 class='pull-left'>{{product.name}} <span class ='badge'>{{product.lineItems[0].quantity}}</span></h5>
-                <form method='post' action='/orders/{{product.id}}'>
-                    <button class='btn btn-info'>Remove from Cart</button>
-                </form>
-            </li>
-            {% endif %} 
-        {% endfor %}
-    </ul>
+<div class='cart'>
+    <div class='panel panel-default'>
+        <ul class='list-group'>
+            {% for product in products %} {% if product.lineItems.length > 0 %}
+            <div class='well'>
+                <li class='list-group-item'>
+                    <h5 class='pull-left'>{{product.name}} <span class='badge'>{{product.lineItems[product.lineItems.length-1].quantity}}</span></h5>
+                    <form method='post' action='/orders/{{product.lineItems[0].orderId}}/orders/{{product.lineItems[0].id}}?_method=DELETE'>
+                        <button class='btn btn-info'>Remove from Cart</button>
+                    </form>
+                </li>
+            </div>
+            {% endif %} {% endfor %}
+        </ul>
+        <form method='post' action='/orders/{{orderId}}?_method=PUT'>
+            <h1>{{products[0].lineItems.length}}</h1>
+            <label for name='address'>Address</label>
+            <input type='text' name='address' class='form-control'>
+            </br>
+            <button class='btn btn-info'>Submit</button>
+        </form>
+    </div>
 </div>
