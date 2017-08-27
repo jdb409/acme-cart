@@ -10,7 +10,6 @@ const seed = () => {
         Product.create({ name: 'Meat' }),
         Product.create({ name: 'Beer' }),
         Product.create({ name: 'Sunshine' }),
-        Order.create()
     ]);
 }
 

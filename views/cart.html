@@ -1,5 +1,6 @@
 <div class='cart'>
-    {% set lastOrder = orders[orders.length-1] %}
+    {% if orders.length %}
+        {% set lastOrder = orders[orders.length-1] %}
     <ul class='list-group'>
         <p>{{err}}</p>
         {% if not lastOrder.address %} {% for item in items %}{% if item.orderId === lastOrder.id %}
@@ -22,6 +23,6 @@
         </br>
         <button class='btn btn-info'>Submit</button>
     </form>
-    {% endif %} {% endif %}
+    {% endif %} {% endif %}{%endif%}
 
 </div>
