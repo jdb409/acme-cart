@@ -9,7 +9,8 @@ const seed = () => {
     return Promise.all([
         Product.create({ name: 'Meat' }),
         Product.create({ name: 'Beer' }),
-        Product.create({ name: 'Sunshine' })
+        Product.create({ name: 'Sunshine' }),
+        Order.create()
     ]);
 }
 
