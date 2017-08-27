@@ -27,7 +27,7 @@ app.get('/', (req, res, next) => {
         }).then(() => {
             return Order.getAll();
         }).then(orders => {
-            if (orders.length > 0) {
+            if (orders.length) {
                 return LineItem.findAll({ include: [{ all: true }] },
                     { where: { orderId: orders[orders.length - 1].id } })
                     .then(items => {
