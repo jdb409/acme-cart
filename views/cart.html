@@ -3,16 +3,17 @@
 
     <div class='panel panel-default'>
         <ul class='list-group'>
-            {% for order in orders %} {% for item in order.lineItems %} {% if item.orderId === orders[orders.length -1].id %}
+            {% for order in orders %} {% for item in order.lineItems %} {% if item.orderId === orders[orders.length -1].id %}{% for product in products %}
+            {% if product.id === item.productId %}
             <div class='well'>
                 <li class='list-group-item'>
-                    <h5 class='pull-left'>{{item.id}} <span class='badge'>{{item.quantity}}</span></h5>
+                    <h5 class='pull-left'>{{product.name}} <span class='badge'>{{item.quantity}}</span></h5>
                     <form method='post' action='/orders/{{order.id}}/orders/{{item.id}}?_method=DELETE'>
                         <button class='btn btn-info'>Remove from Cart</button>
                     </form>
                 </li>
             </div>
-            {% endif %} {% endfor %} {% endfor %}
+            {% endif %}{% endfor %}{% endif %} {% endfor %} {% endfor %}
 
         </ul>
         {% if not lastOrder.address %}

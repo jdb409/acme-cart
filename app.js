@@ -22,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/', (req, res, next) => {
     return Order.findAll({ include: [{ all: true}]})
         .then(orders => {     
+            
             return Product.getProducts()
                 .then(products => {
                     if (orders.length > 0) {

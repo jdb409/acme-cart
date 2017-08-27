@@ -13,9 +13,11 @@ const seed = () => {
 }
 
 Product.hasMany(LineItem);
+Product.hasOne(LineItem);
 LineItem.belongsTo(Product);
 LineItem.belongsTo(Order);
 Order.hasMany(LineItem);
+Order.hasMany(Product);
 
 module.exports = {
     sync, seed,
