@@ -23,7 +23,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/', (req, res, next) => {
     Promise.all([Product.getProducts(), Order.getAll(), LineItem.getAll()])
         .then(result => {
-            console.log(result);
             return res.render('index', { products: result[0], orders: result[1], items: result[2] });
         })
 });
