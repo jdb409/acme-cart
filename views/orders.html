@@ -1,5 +1,19 @@
-<div class = 'container'>
-    {% for order in orders %}
-    <h1>{{order.address}}</h1>
-    {% endfor %}
+</br>
+<div class ='orders'>
+    {% for order in orders %} {%if order.address %}
+    <div>
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <p>{{order.id}}: {{order.address}}</p>
+            </div>
+            <div class='panel-content'>
+                <ul>
+                    {% for item in items %} {% if item.orderId === order.id %}
+                    <li>{{item.product.name}} - {{item.quantity}}</li>
+                    {%endif%}{%endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %} {% endfor %}
 </div>

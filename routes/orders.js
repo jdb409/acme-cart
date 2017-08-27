@@ -10,8 +10,9 @@ router.post('/:id', (req, res, next) => {
 router.put('/:orderId', (req, res, next) => {
     Order.updateFromRequestBody(req.params.orderId, req.body.address)
         .then(order => {
-            res.redirect('/');
-        })
+            return res.redirect('/');
+        }).catch(next);
+        
 })
 
 router.delete('/:orderId/orders/:LineId', (req, res, next) => {

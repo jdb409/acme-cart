@@ -1,4 +1,7 @@
-
+body{
+    font-family: 'Dosis', sans-serif;
+    font-size: 2em;
+}
 
 ul h4{
     float: left;
@@ -17,3 +20,4 @@ li:after{
 .panel{
     padding: 5%;
 }
+

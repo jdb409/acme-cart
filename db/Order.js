@@ -7,7 +7,10 @@ const Order = db.define('order', {
         type: Sequelize.BOOLEAN
     },
     address: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+            notEmpty: true
+        }
     }
 });
 
@@ -46,7 +49,6 @@ Order.getAll = () => {
     return Order.findAll({ include: [{ all: true }] })
         .then(orders => {
            return orders;
-
         });
 }
 

@@ -41,8 +41,8 @@ app.get('/', (req, res, next) => {
 
 app.use('/orders', require('./routes/orders'));
 
-app.get('/', (err, req, res, next) => {
-    res.send(err);
+app.use('/', (err, req, res, next) => {
+    res.render('error', {err: err});
 })
 
 db.sync()
