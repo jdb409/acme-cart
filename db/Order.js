@@ -42,4 +42,12 @@ Order.updateFromRequestBody = (orderId, address) => {
         });
 }
 
+Order.getAll = () => {
+    return Order.findAll({ include: [{ all: true }] })
+        .then(orders => {
+           return orders;
+
+        });
+}
+
 module.exports = Order;

@@ -8,6 +8,7 @@ const port = process.env.PORT || 3000;
 const db = require('./db');
 const Product = require('./db/Product');
 const Order = require('./db/Order');
+const LineItem = require('./db/LineItem');
 
 app.use(methodOverride);
 app.use('/vendor', express.static(path.join(__dirname, 'node_modules')));
@@ -20,19 +21,22 @@ nunjucks.configure('views', { noCache: true });
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res, next) => {
-    return Order.findAll({ include: [{ all: true}]})
-        .then(orders => {     
-            
-            return Product.getProducts()
-                .then(products => {
-                    if (orders.length > 0) {
-                        return res.render('index', { products: products, orders: orders });
-                    }
-                    res.render('index', { products: products });
-                });
-        });
-
-
+    Product.getProducts()
+        .then(products => {
+            res.locals.products = products;
+        }).then(() => {
+            return Order.getAll();
+        }).then(orders => {
+            if (orders.length > 0) {
+                return LineItem.findAll({ include: [{ all: true }] },
+                    { where: { orderId: orders[orders.length - 1].id } })
+                    .then(items => {
+                        console.log(items);
+                        return res.render('index', { products: res.locals.products, orders: orders, items: items });
+                    })
+            }
+            res.render('index', { products: res.locals.products });
+        })
 });
 
 app.use('/orders', require('./routes/orders'));

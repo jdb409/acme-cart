@@ -8,16 +8,14 @@ const sync = () => db.sync({ force: true });
 const seed = () => {
     return Promise.all([
         Product.create({ name: 'Meat' }),
-        Product.create({ name: 'Beer' })
+        Product.create({ name: 'Beer' }),
+        Product.create({ name: 'Sunshine' })
     ]);
 }
 
-Product.hasMany(LineItem);
-Product.hasOne(LineItem);
 LineItem.belongsTo(Product);
 LineItem.belongsTo(Order);
 Order.hasMany(LineItem);
-Order.hasMany(Product);
 
 module.exports = {
     sync, seed,
@@ -26,6 +24,3 @@ module.exports = {
     }
 }
 
-//when you add to cart. create new lineitem with product id and order id
-//each time click quantity increases, don't add new row.
-//Order gets each associated lineItem;
