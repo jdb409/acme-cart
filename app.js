@@ -43,10 +43,10 @@ app.get('/', (req, res, next) => {
 
 app.use('/orders', require('./routes/orders'));
 
-// app.use('/', (err, req, res, next) => {
-//     console.log(err);
-//     res.render('error', {err: err});
-// })
+app.use('/', (err, req, res, next) => {
+    console.log(err);
+    res.render('error', {err: err});
+})
 
 db.sync()
     .then(() => {
