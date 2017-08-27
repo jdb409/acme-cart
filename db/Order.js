@@ -17,9 +17,7 @@ const Order = db.define('order', {
 Order.addProductToCart = (productId) => {
     return Order.findOrCreate({
         where: {
-            isCart: false
-        }, defaults:{
-            isCart: true
+            address: null
         }
     })
     .then((result) => {
