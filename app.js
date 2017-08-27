@@ -25,13 +25,15 @@ app.get('/', (req, res, next) => {
         .then(products => {
             res.locals.products = products;
         }).then(() => {
-            return Promise.all([Order.findAll({ include: [{ all: true }] }, { where: { address: null } }),LineItem.findAll({ include: [{ all: true }] })])
+            Order.findAll({ include: [{ all: true }] })
         }).then(orders => {
-            if (orders[0].length > 0) {
-                console.log(orders);
-                    // orders[1] = orders[1].sort((a, b) => a.id - b.id);
-                    return res.render('index', { products: res.locals.products, orders: orders[0], items: orders[1] });
-               
+            if (orders.length) {
+                return LineItem.findAll({ include: [{ all: true }] })
+                    // { where: { orderId: orders[orders.length - 1].id } })
+                    .then(items => {
+                        items = items.sort((a, b) => a.id - b.id);
+                        return res.render('index', { products: res.locals.products, orders: orders, items: items });
+                    });
             }
             res.render('index', { products: res.locals.products });
         }).catch(err => {
@@ -43,7 +45,7 @@ app.use('/orders', require('./routes/orders'));
 
 app.use('/', (err, req, res, next) => {
     console.log(err);
-    res.render('error', { err: err });
+    res.render('error', {err: err});
 })
 
 db.sync()

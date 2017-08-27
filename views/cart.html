@@ -2,11 +2,11 @@
    
     <ul class='list-group'>
         <p>{{err}}</p>
-        {% if not lastOrder.address %} {% for item in items %}{% if item.orderId === orders[orders.length-1].id %}
+        {% if not lastOrder.address %} {% for item in items %}
         <div class='well'>
             <li class='list-group-item'>
                 <h5 class='pull-left'>{{item.product.name}} <span class='badge'>{{item.quantity}}</span></h5>
-                <form method='post' action='/orders/{{orders[orders.length-1].id}}/orders/{{item.id}}?_method=DELETE'>
+                <form method='post' action='/orders/item.orderId}}/orders/{{item.id}}?_method=DELETE'>
                     <button class='btn btn-info'>Remove from Cart</button>
                 </form>
             </li>
