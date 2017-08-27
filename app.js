@@ -29,7 +29,7 @@ app.get('/', (req, res, next) => {
         }).then(orders => {
             if (orders[0].length > 0) {
                 console.log(orders);
-                    orders[1] = orders[1].sort((a, b) => a.id - b.id);
+                    // orders[1] = orders[1].sort((a, b) => a.id - b.id);
                     return res.render('index', { products: res.locals.products, orders: orders[0], items: orders[1] });
                
             }
