@@ -1,5 +1,5 @@
 var router = require('express').Router();
-const { Order, Product, LineItem } = require('../db/index').models;
+const { Order, LineItem } = require('../db/index').models;
 
 router.post('/:id', (req, res, next) => {
     Order.addProductToCart(req.params.id)
@@ -12,7 +12,7 @@ router.put('/:orderId', (req, res, next) => {
         .then(order => {
             return res.redirect('/');
         }).catch(next);
-        
+
 })
 
 router.delete('/:orderId/orders/:LineId', (req, res, next) => {
