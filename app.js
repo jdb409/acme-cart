@@ -24,28 +24,23 @@ app.get('/', (req, res, next) => {
     Product.getProducts()
         .then(products => {
             res.locals.products = products;
-        }).then(() => {
             return Order.getAll();
         }).then(orders => {
-            if (orders.length > 0) {
-                return LineItem.findAll({ include: [{ all: true }] }/*,
-                { where: { orderId: orders[orders.length - 1].id } }*/)
-                    .then(items => {
-                        // items = items.sort((a, b) => a.id - b.id);
-                        return res.render('index', { products: res.locals.products, orders: orders, items: items });
-                    });
-            }
-            res.render('index', { products: res.locals.products });
-        }).catch(err => {
-            next(err);
-        })
+            console.log(orders);
+            return LineItem.findAll({include: [{all: true}]})
+            .then(items => {
+                console.log('items',items);
+                res.render('index', {products: res.locals.products, orders: orders, items: items});
+            })
+            
+        }).catch(next);
 });
 
 app.use('/orders', require('./routes/orders'));
 
 app.use('/', (err, req, res, next) => {
     console.log(err);
-    res.render('error', {err: err});
+    res.render('error', { err: err });
 })
 
 db.sync()

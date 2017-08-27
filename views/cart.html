@@ -1,27 +1,33 @@
 <div class='cart'>
-    {% set lastOrder = orders[orders.length-1] %}
+    
     <ul class='list-group'>
-        <p>{{err}}</p>
-        {% if not lastOrder.address %} {% for item in items %}{% if item.orderId === lastOrder.id %}
+       
+        {% for order in orders %}
+        {% if loop.last %}
+        {% for item in items %}
+        {% if item.orderId === order.id %}
         <div class='well'>
             <li class='list-group-item'>
                 <h5 class='pull-left'>{{item.product.name}} <span class='badge'>{{item.quantity}}</span></h5>
-                <form method='post' action='/orders/{{lastOrder.id}}/orders/{{item.id}}?_method=DELETE'>
+                <form method='post' action='/orders/{{order.id}}/orders/{{item.id}}?_method=DELETE'>
                     <button class='btn btn-info'>Remove from Cart</button>
                 </form>
             </li>
         </div>
-        {% endif %}{% endfor %}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+       
 
     </ul>
 
     {% if orders %}
-    <form method='post' action='/orders/{{lastOrder.id}}?_method=PUT'>
+    <form method='post' action='/orders/{{items[items.length-1].orderId}}?_method=PUT'>
         <label for name='address'>Address</label>
         <input type='text' name='address' class='form-control'>
         </br>
         <button class='btn btn-info'>Submit</button>
     </form>
-    {% endif %} {% endif %}
-
+    {% endif %} 
 </div>
