@@ -25,17 +25,19 @@ app.get('/', (req, res, next) => {
         .then(products => {
             res.locals.products = products;
         }).then(() => {
-            return Order.getAll();
+            return Order.findAll({ include: [{ all: true }] })
         }).then(orders => {
-            if (orders.length) {
+            if (orders.length > 0) {
                 return LineItem.findAll({ include: [{ all: true }] },
                     { where: { orderId: orders[orders.length - 1].id } })
                     .then(items => {
                         items = items.sort((a, b) => a.id - b.id);
                         return res.render('index', { products: res.locals.products, orders: orders, items: items });
                     });
+            }else{
+                res.render('index', { products: res.locals.products });
             }
-            res.render('index', { products: res.locals.products });
+            
         }).catch(err => {
             next(err);
         })
