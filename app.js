@@ -36,7 +36,7 @@ app.get('/', (req, res, next) => {
                     }).catch(next);
             }
             res.render('index', { products: res.locals.products });
-        })
+        }).catch(next);
 });
 
 app.use('/orders', require('./routes/orders'));
