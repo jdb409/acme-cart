@@ -18,7 +18,7 @@ Order.addProductToCart = (productId) => {
     return Order.create()
     .then((order) => {
         console.log(order)
-        return LineItem.Create({
+        return LineItem.create({
             // where: { productId: productId, orderId: order.id },
             // defaults: {
                 orderId: order.id
