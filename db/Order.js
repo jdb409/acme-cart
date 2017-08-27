@@ -15,13 +15,19 @@ const Order = db.define('order', {
 });
 
 Order.addProductToCart = (productId) => {
-    return Order.create()
-    .then((order) => {
-        console.log(order)
+    return Order.findOrCreate({
+        where: {
+            isCart: false
+        }, defaults:{
+            isCart: true
+        }
+    })
+    .then((result) => {
+        console.log(result)
         return LineItem.create({
             // where: { productId: productId, orderId: order.id },
             // defaults: {
-                orderId: order.id
+                orderId: result[0].id
             // }
         }).then((lineItem) => {
             
@@ -32,6 +38,8 @@ Order.addProductToCart = (productId) => {
     })
 
 }
+
+
 
 Order.updateFromRequestBody = (orderId, address) => {
     return Order.findById(orderId)
