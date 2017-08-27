@@ -29,7 +29,6 @@ app.get('/', (req, res, next) => {
         }).then(orders => {
             if (orders.length > 0) {
             return LineItem.findAll({ include: [{ all: true }] })
-                // { where: { orderId: orders[orders.length - 1].id } })
                 .then(items => {
                     items = items.sort((a, b) => a.id - b.id);
                     return res.render('index', { products: res.locals.products, orders: orders, items: items });
