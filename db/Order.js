@@ -15,22 +15,23 @@ const Order = db.define('order', {
 });
 
 Order.addProductToCart = (productId) => {
-    return Promise.all([Order.findOrCreate({
+    return Order.findOrCreate({
         where: {
             address: null
         }
-    }), LineItem.findOrCreate({
-        where: { productId: productId }
-
-    })]).then(result => {
-        var order = result[0][0];
-        var lineItem = result[1][0];
-        console.log(lineItem);
-        lineItem.orderId = order.id;
-        lineItem.productId = productId;
-        lineItem.quantity++;
-        return lineItem.save();
+    }).spread((order) => {
+        return LineItem.findOrCreate({
+            where: { productId: productId, orderId: order.id },
+            defaults: {
+                orderId: order.id
+            }
+        }).spread((lineItem) => {
+            lineItem.productId = productId;
+            lineItem.quantity++;
+            return lineItem.save();
+        })
     })
+
 }
 
 Order.updateFromRequestBody = (orderId, address) => {
