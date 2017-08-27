@@ -18,11 +18,11 @@ Order.addProductToCart = (productId) => {
     return Order.create()
     .then((order) => {
         console.log(order)
-        return LineItem.findOrCreate({
-            where: { productId: productId, orderId: order.id },
-            defaults: {
+        return LineItem.Create({
+            // where: { productId: productId, orderId: order.id },
+            // defaults: {
                 orderId: order.id
-            }
+            // }
         }).then((result) => {
             var lineItem = result[0];
             lineItem.productId = productId;
