@@ -28,9 +28,8 @@ app.get('/', (req, res, next) => {
             return Order.findAll({ include: [{ all: true }] }, { where: { address: null } })
         }).then(orders => {
             if (orders.length > 0) {
-            // orders = orders || { id: 1 };
-            return LineItem.findAll({ include: [{ all: true }] },
-                { where: { orderId: orders[orders.length - 1].id } })
+            return LineItem.findAll({ include: [{ all: true }] })
+                // { where: { orderId: orders[orders.length - 1].id } })
                 .then(items => {
                     items = items.sort((a, b) => a.id - b.id);
                     return res.render('index', { products: res.locals.products, orders: orders, items: items });
