@@ -18,9 +18,6 @@ Order.addProductToCart = (productId) => {
     return Order.findOrCreate({
         where: {
             address: null
-        },
-        defaults: {
-            isCart: true
         }
     }).spread((order) => {
         return LineItem.findOrCreate({
