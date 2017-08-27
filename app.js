@@ -27,7 +27,7 @@ app.get('/', (req, res, next) => {
         }).then(() => {
             return Order.findAll({ include: [{ all: true }] })
         }).then(orders => {
-            if (!orders.length) {
+            if (orders === undefined) {
                 res.render('index', { products: res.locals.products });
             } else {
                 return LineItem.findAll({ include: [{ all: true }] },
