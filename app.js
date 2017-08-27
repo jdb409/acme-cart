@@ -20,12 +20,12 @@ nunjucks.configure('views', { noCache: true });
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res, next) => {
-    return Order.findAll()
-        .then(orders => {
+    return Order.findAll({ include: [{ all: true}]})
+        .then(orders => {     
             return Product.getProducts()
                 .then(products => {
                     if (orders.length > 0) {
-                        return res.render('index', { products: products, orderId: orders[orders.length - 1].id });
+                        return res.render('index', { products: products, orders: orders });
                     }
                     res.render('index', { products: products });
                 });
