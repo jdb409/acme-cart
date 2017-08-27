@@ -8,10 +8,10 @@ const Order = db.define('order', {
     },
     address: {
         type: Sequelize.STRING,
+        defaultValue: null,
         validate: {
             notEmpty: true
-        },
-        defaultValue: null
+        }
     }
 });
 
@@ -19,26 +19,24 @@ Order.addProductToCart = (productId) => {
     return Order.findOrCreate({
         where: {
             address: null
+        },
+        defaults: {
+            isCart: true
         }
-    })
-    .then((result) => {
-        console.log(result)
-        return LineItem.create({
-            // where: { productId: productId, orderId: order.id },
-            // defaults: {
-                orderId: result[0].id
-            // }
-        }).then((lineItem) => {
-            
+    }).spread((order) => {
+        return LineItem.findOrCreate({
+            where: { productId: productId, orderId: order.id },
+            defaults: {
+                orderId: order.id
+            }
+        }).spread((lineItem) => {
             lineItem.productId = productId;
             lineItem.quantity++;
             return lineItem.save();
         })
-    });
+    })
 
 }
-
-
 
 Order.updateFromRequestBody = (orderId, address) => {
     return Order.findById(orderId)
