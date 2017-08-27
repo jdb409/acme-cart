@@ -23,8 +23,8 @@ Order.addProductToCart = (productId) => {
             // defaults: {
                 orderId: order.id
             // }
-        }).then((result) => {
-            var lineItem = result[0];
+        }).then((lineItem) => {
+            
             lineItem.productId = productId;
             lineItem.quantity++;
             return lineItem.save();
