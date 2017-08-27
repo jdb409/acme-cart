@@ -33,15 +33,18 @@ app.get('/', (req, res, next) => {
                     .then(items => {
                         items = items.sort((a, b) => a.id - b.id);
                         return res.render('index', { products: res.locals.products, orders: orders, items: items });
-                    }).catch(next);
+                    });
             }
             res.render('index', { products: res.locals.products });
-        }).catch(next);
+        }).catch(err => {
+            next(err);
+        })
 });
 
 app.use('/orders', require('./routes/orders'));
 
 app.use('/', (err, req, res, next) => {
+    console.log(err);
     res.render('error', {err: err});
 })
 
