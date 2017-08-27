@@ -22,21 +22,22 @@ Order.addProductToCart = (productId) => {
         defaults: {
             isCart: true
         }
-    }).then((result) => {
-        var order = result[0]
-        console.log(order)
-        return LineItem.findOrCreate({
-            where: { productId: productId, orderId: order.id },
-            defaults: {
-                orderId: order.id
-            }
-        }).then((result) => {
-            var lineItem = result[0];
-            lineItem.productId = productId;
-            lineItem.quantity++;
-            return lineItem.save();
-        })
     })
+    // .then((result) => {
+    //     var order = result[0]
+    //     console.log(order)
+    //     return LineItem.findOrCreate({
+    //         where: { productId: productId, orderId: order.id },
+    //         defaults: {
+    //             orderId: order.id
+    //         }
+    //     }).then((result) => {
+    //         var lineItem = result[0];
+    //         lineItem.productId = productId;
+    //         lineItem.quantity++;
+    //         return lineItem.save();
+    //     })
+    // })
 
 }
 
