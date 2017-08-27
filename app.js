@@ -27,17 +27,15 @@ app.get('/', (req, res, next) => {
         }).then(() => {
             return Order.findAll({ include: [{ all: true }] })
         }).then(orders => {
-            if (orders === undefined) {
-                res.render('index', { products: res.locals.products });
-            } else {
+            if (orders.length > 0) {
                 return LineItem.findAll({ include: [{ all: true }] },
-                    { where: { orderId: orders[orders.length - 1].id } })
+                    { where: { orderId: orders[orders.length - 1].id || 1 } })
                     .then(items => {
                         items = items.sort((a, b) => a.id - b.id);
                         return res.render('index', { products: res.locals.products, orders: orders, items: items });
                     });
             }
-
+            res.render('index', { products: res.locals.products });
         }).catch(err => {
             next(err);
         })
@@ -47,7 +45,7 @@ app.use('/orders', require('./routes/orders'));
 
 app.use('/', (err, req, res, next) => {
     console.log(err);
-    res.render('error', { err: err });
+    res.render('error', {err: err});
 })
 
 db.sync()
