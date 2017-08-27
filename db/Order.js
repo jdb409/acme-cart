@@ -35,7 +35,7 @@ Order.addProductToCart = (productId) => {
             lineItem.quantity++;
             return lineItem.save();
         })
-    })
+    });
 
 }
 
