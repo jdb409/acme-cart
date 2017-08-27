@@ -8,6 +8,7 @@ const Order = db.define('order', {
     },
     address: {
         type: Sequelize.STRING,
+        defaultValue: null,
         validate: {
             notEmpty: true
         }
