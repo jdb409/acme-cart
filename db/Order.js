@@ -24,6 +24,7 @@ Order.addProductToCart = (productId) => {
         }
     }).then((result) => {
         var order = result[0]
+        console.log(order)
         return LineItem.findOrCreate({
             where: { productId: productId, orderId: order.id },
             defaults: {

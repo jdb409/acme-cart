@@ -21,18 +21,18 @@ nunjucks.configure('views', { noCache: true });
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res, next) => {
-    Product.getProducts()
-        .then(products => {
-            res.locals.products = products;
-            return Order.getAll();
-        }).then(orders => {
-            console.log(orders);
-            return LineItem.findAll({include: [{all: true}]})
-            .then(items => {
-                console.log('items',items);
-                res.render('index', {products: res.locals.products, orders: orders, items: items});
-            })
-            
+    Promise.all([Product.getProducts(), Order.getAll(), LineItem.findAll({ include: [{ all: true }] })])
+        // Product.getProducts()
+        //     .then(products => {
+        //         res.locals.products = products;
+        //         return Order.getAll();
+        //     }).then(orders => {
+        //         console.log(orders);
+        //         return LineItem.findAll({include: [{all: true}]})
+        .then((result) => {
+            res.render('index', { products: result[0], orders: result[1], items: result[2] });
+
+
         }).catch(next);
 });
 
