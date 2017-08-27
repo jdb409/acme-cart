@@ -18,6 +18,9 @@ Order.addProductToCart = (productId) => {
     return Order.findOrCreate({
         where: {
             address: null
+        },
+        defaults: {
+            isCart: true
         }
     }).spread((order) => {
         return LineItem.findOrCreate({
@@ -43,7 +46,7 @@ Order.updateFromRequestBody = (orderId, address) => {
 }
 
 Order.getAll = () => {
-    return Order.findAll({ include: [{ all: true }] });
+    return Order.findAll({ include: [{ all: true }] })
 }
 
 module.exports = Order;

@@ -3,7 +3,7 @@ const Product = require('./Product');
 const Order = require('./Order');
 const LineItem = require('./LineItem');
 
-const sync = () => db.sync({});
+const sync = () => db.sync({ force: true });
 
 const seed = () => {
     return Promise.all([
