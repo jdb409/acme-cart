@@ -5,7 +5,9 @@ router.post('/:id', (req, res, next) => {
     Order.addProductToCart(req.params.id)
         .then(() => {
             res.redirect('/');
-        }).catch(next);
+        }).catch(err => {
+            next('hello');
+        });
 });
 router.put('/:orderId', (req, res, next) => {
     Order.updateFromRequestBody(req.params.orderId, req.body.address)
