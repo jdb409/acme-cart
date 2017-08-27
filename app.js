@@ -21,23 +21,10 @@ nunjucks.configure('views', { noCache: true });
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res, next) => {
-    Product.getProducts()
-        .then(products => {
-            res.locals.products = products;
-        }).then(() => {
-            return Order.getAll();
-        }).then(orders => {
-            if (orders.length) {
-                return LineItem.findAll({ include: [{ all: true }] },
-                    { where: { orderId: orders[orders.length - 1].id } })
-                    .then(items => {
-                        items = items.sort((a, b) => a.id - b.id);
-                        return res.render('index', { products: res.locals.products, orders: orders, items: items });
-                    });
-            }
-            res.render('index', { products: res.locals.products });
-        }).catch(err => {
-            next(err);
+    Promise.all([Product.getProducts(), Order.getAll(), LineItem.getAll()])
+        .then(result => {
+            console.log(result);
+            return res.render('index', { products: result[0], orders: result[1], items: result[2] });
         })
 });
 
@@ -45,7 +32,7 @@ app.use('/orders', require('./routes/orders'));
 
 app.use('/', (err, req, res, next) => {
     console.log(err);
-    res.render('error', {err: err});
+    res.render('error', { err: err });
 })
 
 db.sync()

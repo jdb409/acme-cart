@@ -17,4 +17,13 @@ LineItem.destroyLineItem = (orderId, lineItemId) => {
         }
     });
 }
+
+LineItem.getAll = () => {
+    return LineItem.findAll({ include: [{ all: true }] })
+        .then(items => {
+            items = items.sort((a, b) => a.id - b.id);
+            return items;
+        })
+}
+
 module.exports = LineItem;
