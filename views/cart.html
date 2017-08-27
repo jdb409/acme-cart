@@ -1,5 +1,5 @@
 <div class='cart'>
-    {% set lastOrder = 1 %}
+    {% set lastOrder = orders[orders.length-1] %}
     <ul class='list-group'>
         <p>{{err}}</p>
         {% if not lastOrder.address %} {% for item in items %}{% if item.orderId === lastOrder.id %}

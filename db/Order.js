@@ -22,13 +22,15 @@ Order.addProductToCart = (productId) => {
         defaults: {
             isCart: true
         }
-    }).spread((order) => {
+    }).then((result) => {
+        var order = result[0]
         return LineItem.findOrCreate({
             where: { productId: productId, orderId: order.id },
             defaults: {
                 orderId: order.id
             }
-        }).spread((lineItem) => {
+        }).then((result) => {
+            var lineItem = result[0];
             lineItem.productId = productId;
             lineItem.quantity++;
             return lineItem.save();
