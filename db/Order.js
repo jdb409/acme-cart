@@ -8,7 +8,6 @@ const Order = db.define('order', {
     },
     address: {
         type: Sequelize.STRING,
-        defaultValue: null,
         validate: {
             notEmpty: true
         }
@@ -48,6 +47,9 @@ Order.updateFromRequestBody = (orderId, address) => {
 
 Order.getAll = () => {
     return Order.findAll({ include: [{ all: true }] })
+        .then(orders => {
+           return orders;
+        });
 }
 
 module.exports = Order;
