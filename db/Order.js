@@ -15,16 +15,22 @@ const Order = db.define('order', {
 });
 
 Order.getCart = () => {
-    return Order.findOrCreate({
+    return Order.find({
         where: {
             address: null
         }
-    });
+    }).then(order => {
+        if (order === null) {
+            return Order.create()
+        } else {
+            return order;
+        }
+    })
 }
 
 Order.getItem = (productId) => {
     return Order.getCart()
-        .spread((order) => {
+        .then((order) => {
             return LineItem.findOrCreate({
                 where: { productId: productId, orderId: order.id }, defaults: {
                     orderId: order.id
