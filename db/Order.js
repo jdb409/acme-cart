@@ -31,17 +31,24 @@ Order.getCart = () => {
 Order.getItem = (productId) => {
     return Order.getCart()
         .then((order) => {
-            return LineItem.findOrCreate({
-                where: { productId: productId, orderId: order.id }, defaults: {
-                    orderId: order.id
+            return LineItem.find({
+                where: { productId: productId, orderId: order.id }
+            }).then(item => {
+                if (item === null) {
+                    return LineItem.create({
+                        productId: productId,
+                        orderId: order.id
+                    })
+                } else {
+                    return item;
                 }
-            });
+            })
         })
 }
 
 Order.addProductToCart = (productId) => {
     return Order.getItem(productId)
-        .spread((lineItem) => {
+        .then((lineItem) => {
             lineItem.productId = productId;
             lineItem.quantity++;
             return lineItem.save();
