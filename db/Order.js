@@ -14,25 +14,34 @@ const Order = db.define('order', {
     }
 });
 
-Order.addProductToCart = (productId) => {
+Order.getCart = () => {
     return Order.findOrCreate({
         where: {
             address: null
         }
-    }).spread((order) => {
-        return LineItem.findOrCreate({
-            where: { productId: productId, orderId: order.id },
-            defaults: {
-                orderId: order.id
-            }
-        }).spread((lineItem) => {
+    });
+}
+
+Order.getItem = (productId) => {
+    return Order.getCart()
+        .spread((order) => {
+            return LineItem.findOrCreate({
+                where: { productId: productId, orderId: order.id }, defaults: {
+                    orderId: order.id
+                }
+            });
+        })
+}
+
+Order.addProductToCart = (productId) => {
+    return Order.getItem(productId)
+        .spread((lineItem) => {
             lineItem.productId = productId;
             lineItem.quantity++;
             return lineItem.save();
         })
-    })
-
 }
+
 
 Order.updateFromRequestBody = (orderId, address) => {
     return Order.findById(orderId)
