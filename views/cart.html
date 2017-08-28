@@ -1,7 +1,6 @@
 <div class='cart'>
     {% set lastOrder = orders[orders.length-1] %}
     <ul class='list-group'>
-        <p>{{err}}</p>
         {% if not lastOrder.address %} {% for item in items %}{% if item.orderId === lastOrder.id %}
         <div class='well'>
             <li class='list-group-item'>
@@ -15,7 +14,7 @@
 
     </ul>
 
-    {% if orders %}
+    {% if lastOrder.lineItems.length>0 %}
     <form method='post' action='/orders/{{lastOrder.id}}?_method=PUT'>
         <label for name='address'>Address</label>
         <input type='text' name='address' class='form-control'>
