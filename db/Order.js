@@ -68,4 +68,5 @@ Order.getAll = () => {
     return Order.findAll({ include: [{ all: true }] })
 }
 
+
 module.exports = Order;

@@ -17,6 +17,10 @@ LineItem.belongsTo(Product);
 LineItem.belongsTo(Order);
 Order.hasMany(LineItem);
 
+Order.display = () => {
+    return Promise.all([Product.getProducts(), Order.getAll(), LineItem.getAll()])
+}
+
 module.exports = {
     sync, seed,
     models: {

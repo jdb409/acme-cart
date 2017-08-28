@@ -1,5 +1,10 @@
 </br>
 <div class ='orders'>
+    
+    {% if orders[0].address %}
+        <p>Your orders</p>
+    {% endif %}
+
     {% for order in orders %} {%if order.address %}
     <div>
         <div class='panel panel-default'>

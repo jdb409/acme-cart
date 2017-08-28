@@ -6,9 +6,8 @@ const methodOverride = require('method-override')('_method');
 const path = require('path');
 const port = process.env.PORT || 3000;
 const db = require('./db');
-const Product = require('./db/Product');
 const Order = require('./db/Order');
-const LineItem = require('./db/LineItem');
+
 
 app.use(methodOverride);
 app.use('/vendor', express.static(path.join(__dirname, 'node_modules')));
@@ -21,7 +20,7 @@ nunjucks.configure('views', { noCache: true });
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res, next) => {
-    Promise.all([Product.getProducts(), Order.getAll(), LineItem.getAll()])
+    Order.display()
         .then(result => {
             return res.render('index', { products: result[0], orders: result[1], items: result[2] });
         })
@@ -31,7 +30,10 @@ app.use('/orders', require('./routes/orders'));
 
 app.use('/', (err, req, res, next) => {
     console.log(err);
-    res.render('error', { err: err });
+    Order.display()
+        .then(result => {
+            return res.render('index', { products: result[0], orders: result[1], items: result[2], err: 'Address Required!' });
+        })
 })
 
 db.sync()
